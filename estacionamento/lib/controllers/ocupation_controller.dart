@@ -14,7 +14,7 @@ class OcupationPageController extends GetxController {
   }
 
   fetchData() async {
-    List result = await dbHelper.getVagas('select * from $estacionamentoTable');
+    List result = await dbHelper.getVagas('select * from $parkTable');
     lista.assignAll(result);
     update();
   }
@@ -22,9 +22,9 @@ class OcupationPageController extends GetxController {
   Future updateVaga(int preenchida, int vaga, int index,
       {entrada, saida}) async {
     await dbHelper.updateVagas({
-      vagaPreenchida: preenchida,
-      dataEntrada: entrada,
-      dataSaida: saida,
+      vacancyFilled: preenchida,
+      dateOpen: entrada,
+      dateOut: saida,
     }, vaga);
     fetchData();
   }

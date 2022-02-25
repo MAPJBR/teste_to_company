@@ -14,16 +14,16 @@ class HomePageController extends GetxController {
   }
 
   fetchData() async {
-    List result = await dbHelper.getVagas('select * from $estacionamentoTable');
+    List result = await dbHelper.getVagas('select * from $parkTable');
     lista.assignAll(result);
     print('Lista===>$lista');
   }
 
   Future getVagas() async {
-    List result = await dbHelper.getVagas('select * from $estacionamentoTable');
+    List result = await dbHelper.getVagas('select * from $parkTable');
     if (result.isEmpty) {
       for (var i = 1; i < 11; i++) {
-        await dbHelper.insertVagas({vagaPreenchida: 0});
+        await dbHelper.insertVagas({vacancyFilled: 0});
       }
     }
   }
@@ -31,9 +31,9 @@ class HomePageController extends GetxController {
   Future updateVaga(int preenchida, int vaga, int index,
       {entrada, saida}) async {
     await dbHelper.updateVagas({
-      vagaPreenchida: preenchida,
-      dataEntrada: entrada,
-      dataSaida: saida,
+      vacancyFilled: preenchida,
+      dateOpen: entrada,
+      dateOut: saida,
     }, vaga);
     fetchData();
   }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 @override
-Widget menu(String imagem, String texto, double tamanho, var funcao) {
+Widget menu(String image, String text, double size, var function) {
   return GestureDetector(
-    onTap: funcao,
+    onTap: function,
     child: Padding(
       padding: const EdgeInsets.all(5),
       child: Card(
@@ -12,7 +12,7 @@ Widget menu(String imagem, String texto, double tamanho, var funcao) {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(20)),
-            image: DecorationImage(image: AssetImage(imagem), scale: 6),
+            image: DecorationImage(image: AssetImage(image), scale: 6),
             color: Colors.amber[300],
           ),
           height: 170,
@@ -22,7 +22,7 @@ Widget menu(String imagem, String texto, double tamanho, var funcao) {
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Text(
-                  texto,
+                  text,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,

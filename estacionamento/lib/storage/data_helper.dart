@@ -3,19 +3,19 @@ import 'package:path/path.dart';
 
 //Estacionamento Table
 
-const String estacionamentoTable = 'ESTACIONAMENTO';
-const String vagaEstacionamento = 'NUMERO_VAGA';
-const String vagaPreenchida = 'PREENCHIDA';
-const String dataEntrada = 'DATA_ENTRADA';
-const String dataSaida = 'DATA_SAIDA';
+const String parkTable = 'ESTACIONAMENTO';
+const String parkingSpace = 'NUMERO_VAGA';
+const String vacancyFilled = 'PREENCHIDA';
+const String dateOpen = 'DATA_ENTRADA';
+const String dateOut = 'DATA_SAIDA';
 
 //Historico Table
-const String historicoTable = 'HISTORICO';
-const String idHistorico = 'ID';
-const String vagaEstacionamentoHistorico = 'NUMERO_VAGA';
-const String clienteHistorico = 'CLIENTE';
-const String dataEntradaHistorico = 'DATA_ENTRADA';
-const String dataSaidaHistorico = 'DATA_SAIDA';
+const String historicTable = 'HISTORICO';
+const String idHistoric = 'ID';
+const String historicParkingSpace = 'NUMERO_VAGA';
+const String costumerHistoric = 'CLIENTE';
+const String historicDateOpen = 'DATA_ENTRADA';
+const String historicDateOut = 'DATA_SAIDA';
 
 class BancoDeDados {
   BancoDeDados._privateConstructor();
@@ -32,13 +32,13 @@ class BancoDeDados {
 
   Future criarBanco(Database db, int novaVersao) async {
     List<String> queries = [
-      """CREATE TABLE $estacionamentoTable($vagaEstacionamento INTEGER PRIMARY KEY,
-      $vagaPreenchida INTEGER, $dataEntrada TEXT, $dataSaida TEXT)""",
-      """CREATE TABLE $historicoTable($idHistorico INTEGER PRIMARY KEY, 
-      $vagaEstacionamentoHistorico INTEGER, $clienteHistorico TEXT,
-      $dataEntradaHistorico TEXT, $dataSaidaHistorico TEXT, 
-      FOREIGN KEY ($vagaEstacionamentoHistorico)
-      REFERENCES $estacionamentoTable($vagaEstacionamento))""",
+      """CREATE TABLE $parkTable($parkingSpace INTEGER PRIMARY KEY,
+      $vacancyFilled INTEGER, $dateOpen TEXT, $dateOut TEXT)""",
+      """CREATE TABLE $historicTable($idHistoric INTEGER PRIMARY KEY, 
+      $historicParkingSpace INTEGER, $costumerHistoric TEXT,
+      $historicDateOpen TEXT, $historicDateOut TEXT, 
+      FOREIGN KEY ($historicParkingSpace)
+      REFERENCES $parkTable($parkingSpace))""",
     ];
     for (String query in queries) {
       await db.execute(query);
@@ -48,28 +48,28 @@ class BancoDeDados {
 
   Future insertVagas(Map<String, dynamic> row) async {
     Database db = await _initdatabase();
-    await db.insert(estacionamentoTable, row);
+    await db.insert(parkTable, row);
     await db.close();
   }
 
   Future<dynamic> updateVagas(Map<String, dynamic> row, var vaga) async {
     Database db = await _initdatabase();
-    await db.update(estacionamentoTable, row,
-        where: '$vagaEstacionamento = ?', whereArgs: [vaga]);
+    await db
+        .update(parkTable, row, where: '$parkingSpace = ?', whereArgs: [vaga]);
     await db.close();
   }
 
   Future insertHistorico(Map<String, dynamic> row) async {
     Database db = await _initdatabase();
-    var id = await db.insert(historicoTable, row);
+    var id = await db.insert(historicTable, row);
     await db.close();
     return id;
   }
 
   Future<dynamic> updateHistorico(Map<String, dynamic> row, var id) async {
     Database db = await _initdatabase();
-    await db.update(historicoTable, row,
-        where: '$idHistorico = ?', whereArgs: [id]);
+    await db
+        .update(historicTable, row, where: '$idHistoric = ?', whereArgs: [id]);
     await db.close();
   }
 
@@ -82,7 +82,7 @@ class BancoDeDados {
 
   Future getHistorico() async {
     Database db = await _initdatabase();
-    var result = await db.rawQuery('select * from $historicoTable');
+    var result = await db.rawQuery('select * from $historicTable');
     db.close();
     return result;
   }
@@ -90,7 +90,7 @@ class BancoDeDados {
   Future getIdHistorico(var vaga) async {
     Database db = await _initdatabase();
     List result = await db.rawQuery(
-        'select * from $historicoTable where $vagaEstacionamentoHistorico = ? order by $idHistorico',
+        'select * from $historicTable where $historicParkingSpace = ? order by $idHistoric',
         [vaga]);
     db.close();
     return result.last;

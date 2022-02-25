@@ -63,7 +63,7 @@ class ReportPage extends StatelessWidget {
                             shape: Border(
                                 right: BorderSide(
                                     color: controller.lista[index]
-                                                [dataSaidaHistorico] ==
+                                                [historicDateOut] ==
                                             null
                                         ? Colors.red
                                         : Colors.green,
@@ -72,31 +72,31 @@ class ReportPage extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  'Vaga: ${controller.lista[index][vagaEstacionamentoHistorico]}',
+                                  'Vaga: ${controller.lista[index][historicParkingSpace]}',
                                   style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  'Cliente: ${controller.lista[index][clienteHistorico]}',
+                                  'Cliente: ${controller.lista[index][costumerHistoric]}',
                                   style: const TextStyle(
                                     fontSize: 20,
                                   ),
                                 ),
                                 Text(
-                                  'Data de Entrada: ${controller.lista[index][dataEntradaHistorico] ?? ''}',
+                                  'Data de Entrada: ${controller.lista[index][historicDateOpen] ?? ''}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                   ),
                                 ),
                                 Text(
-                                  'Data de Saida: ${controller.lista[index][dataSaidaHistorico] ?? ''}',
+                                  'Data de Saida: ${controller.lista[index][historicDateOut] ?? ''}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                   ),
                                 ),
                                 Text(
-                                  controller.lista[index][dataSaidaHistorico] ==
+                                  controller.lista[index][historicDateOut] ==
                                           null
                                       ? 'Situação: Permanece na vaga'
                                       : 'Situação: Liberado',

@@ -65,7 +65,7 @@ class OcupationPage extends StatelessWidget {
                             shape: Border(
                                 right: BorderSide(
                                     color: controller.lista[index]
-                                                [vagaPreenchida] ==
+                                                [vacancyFilled] ==
                                             0
                                         ? Colors.green
                                         : Colors.red,
@@ -74,11 +74,11 @@ class OcupationPage extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                    """Data de Entrada: ${controller.lista[index][dataEntrada] ?? ''}    Data de Saída: ${controller.lista[index][dataSaida] ?? ''}"""),
+                                    """Data de Entrada: ${controller.lista[index][dateOpen] ?? ''}    Data de Saída: ${controller.lista[index][dateOut] ?? ''}"""),
                                 Text(
-                                    'Vaga n° ${controller.lista[index][vagaEstacionamento]}',
+                                    'Vaga n° ${controller.lista[index][parkingSpace]}',
                                     style: const TextStyle(fontSize: 22)),
-                                controller.lista[index][vagaPreenchida] == 0
+                                controller.lista[index][vacancyFilled] == 0
                                     ? const Text('Vaga Livre',
                                         style: TextStyle(
                                             fontSize: 16,
@@ -96,7 +96,7 @@ class OcupationPage extends StatelessWidget {
                                         style:
                                             ButtonStyle(backgroundColor: color),
                                         onPressed: controller.lista[index]
-                                                    [vagaPreenchida] ==
+                                                    [vacancyFilled] ==
                                                 0
                                             ? () async {
                                                 final TextEditingController
@@ -137,17 +137,17 @@ class OcupationPage extends StatelessWidget {
                                                 await controller.updateVaga(
                                                     1,
                                                     controller.lista[index]
-                                                        [vagaEstacionamento],
+                                                        [parkingSpace],
                                                     index,
                                                     entrada: dataFormatada);
                                                 await controller.dbHelper
                                                     .insertHistorico({
-                                                  vagaEstacionamentoHistorico:
+                                                  historicParkingSpace:
                                                       controller.lista[index]
-                                                          [vagaEstacionamento],
-                                                  clienteHistorico:
+                                                          [parkingSpace],
+                                                  costumerHistoric:
                                                       cliente['RESULTADO'],
-                                                  dataEntradaHistorico:
+                                                  historicDateOpen:
                                                       dataFormatada
                                                 });
                                               }
@@ -159,32 +159,29 @@ class OcupationPage extends StatelessWidget {
                                         style:
                                             ButtonStyle(backgroundColor: color),
                                         onPressed: controller.lista[index]
-                                                    [vagaPreenchida] ==
+                                                    [vacancyFilled] ==
                                                 1
                                             ? () async {
                                                 var resultHistorico =
-                                                    await controller
-                                                        .dbHelper
-                                                        .getIdHistorico(controller
-                                                                .lista[index][
-                                                            vagaEstacionamento]);
+                                                    await controller.dbHelper
+                                                        .getIdHistorico(
+                                                            controller.lista[
+                                                                    index]
+                                                                [parkingSpace]);
                                                 var dataSaida = DateTime.now();
                                                 var dataFormatada = controller
                                                     .formatarData(dataSaida);
                                                 await controller.updateVaga(
                                                     0,
                                                     controller.lista[index]
-                                                        [vagaEstacionamento],
+                                                        [parkingSpace],
                                                     index,
                                                     saida: dataFormatada);
                                                 await controller.dbHelper
-                                                    .updateHistorico(
-                                                        {
-                                                      dataSaidaHistorico:
-                                                          dataFormatada,
-                                                    },
-                                                        resultHistorico[
-                                                            idHistorico]);
+                                                    .updateHistorico({
+                                                  historicDateOut:
+                                                      dataFormatada,
+                                                }, resultHistorico[idHistoric]);
                                               }
                                             : null,
                                         child: const Text('Saída'))
